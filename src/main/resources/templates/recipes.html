@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Cookbook App</title>
+	 <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<!-- js library -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+	<!-- Latest compiled JavaScript bundle-->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> 
+	<!-- jQuery library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+</head>
+	<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-light">
+ 		<a class="navbar-brand" href="#">Cookbook v1.0</a>
+ 	 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  		</button>
+	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="/">Homepage</a>
+	      </li>
+	      <li class="nav-item active">
+	        <a class="nav-link" href="/recipes">Recipes<span class="sr-only">(current)</span></a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/recipes/create">Create a new recipe</a>
+	      </li>
+	    </ul>
+	    <form class="form-inline my-2 my-lg-0">
+	      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+	      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	    </form>
+	  </div>
+	</nav>
+	
+	<div class="container" style="float: left;">
+	<div class="card-deck">
+		<div class="card shadow" style="max-width:500px;" th:each="recipe : ${recipes}">
+		  <img class="card-img-top img-thumbnail" style="max-height:500px; max-width:500px;"
+		  alt="Card image cap" th:src="@{'data:image/jpg;base64,' + ${recipe.imgUtility}}">
+		  <div class="card-body">
+		    <h4 class="card-title" th:text="${recipe.recipeTitle}"></h4>
+		    <p class="card-text" th:text="${recipe.recipeDescription}"></p>
+		    <ul th:each="recipeIngredient : ${recipe.recipeIngredients}" class="list-group">
+				<li th:text="${recipeIngredient.measurement} + ' ' + ${recipeIngredient.ingredient.ingredientTitle}" class="list-group-item"></li>
+			</ul> 
+		    <div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+		    	<a th:href="@{/recipes/edit/{id}(id=${recipe.recipeId})}" class="btn btn-primary">Edit recipe</a>
+			  	<a th:href="@{/recipes/delete/{id}(id=${recipe.recipeId})}" class="btn btn-primary">Delete recipe</a>
+			</div>
+		  </div>
+		</div>
+	</div>
+	</div>
+	</body>
+	
+	
+</html>
